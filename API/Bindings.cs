@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace GLFW {
+namespace GLFW_CS {
 	public static partial class Bindings {
 		private const string DllName = "lib/glfw3";
 
@@ -29,7 +29,7 @@ namespace GLFW {
 		internal static partial int GetPlatform();
 
 		[LibraryImport(DllName, EntryPoint = "glfwPlatformSupported", SetLastError = true), UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
-		internal static partial int IsPlatformSupported(int platform);
+		internal static partial int CheckPlatformSupported(int platform);
 
 		[LibraryImport(DllName, EntryPoint = "glfwCreateCursor", SetLastError = true), UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
 		internal static partial nint CreateCursor(nint image, double xhot, double yhot);
@@ -62,7 +62,7 @@ namespace GLFW {
 		internal static partial void SwapInterval(int interval);
 
 		[LibraryImport(DllName, EntryPoint = "glfwExtensionSupported", SetLastError = true), UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
-		internal static partial int IsExtensionSupported(nint extension);
+		internal static partial int CheckExtensionSupported(nint extension);
 
 		[LibraryImport(DllName, EntryPoint = "glfwGetProcAddress", SetLastError = true), UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
 		internal static partial nint GetProcAddress(nint procname);

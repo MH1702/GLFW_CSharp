@@ -1,10 +1,11 @@
-﻿using GLFW.Enums;
-using GLFW.Exceptions;
+﻿using GLFW_CS.Enums;
+using GLFW_CS.Exceptions;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace GLFW {
+namespace GLFW_CS {
 	public static class API {
 		private static bool IsInitialized = false;
 
@@ -101,6 +102,8 @@ namespace GLFW {
 			Bindings.SetMonitorCallback(Monitor.Callback);
 
 			IsInitialized = true;
+
+			Console.WriteLine($"Running GLFW {CurrentVersion}");
 		}
 
 		public record InitHints {
@@ -174,7 +177,7 @@ namespace GLFW {
 			Bindings.Terminate();
 		}
 
-		public readonly struct Version_(int major, int minor, int revision) {
+		public readonly struct Version(int major, int minor, int revision) {
 			public readonly int Major = major;
 			public readonly int Minor = minor;
 			public readonly int Revision = revision;
@@ -184,21 +187,21 @@ namespace GLFW {
 			}
 		}
 
-		public static Version_ Version {
+		public static Version CurrentVersion {
 			get {
 				Bindings.GetVersion(out int major, out int minor, out int revision);
-				return new Version_(major, minor, revision);
+				return new Version(major, minor, revision);
 			}
 		}
 
-		public static string VersionString {
+		public static string CurrentVersionString {
 			get {
 				var ptr = Bindings.GetVersionString();
 				return Marshal.PtrToStringAnsi(ptr) ?? string.Empty;
 			}
 		}
 
-		public readonly struct Error_ {
+		public readonly struct Error {
 			public required ErrorType Type { get; init; }
 			public required string Message { get; init; }
 		}
@@ -206,7 +209,7 @@ namespace GLFW {
 		public static Platform Platform => (Platform)Bindings.GetPlatform();
 
 		public static bool CheckSupported(this Platform platform) {
-			return Bindings.IsPlatformSupported((int)platform) > 0;
+			return Bindings.CheckPlatformSupported((int)platform) > 0;
 		}
 
 		public static string Clipboard {
@@ -235,16 +238,24 @@ namespace GLFW {
 			Bindings.SwapInterval(interval);
 		}
 
-		public static bool IsExtensionSupported(string extension) {
-			var ptr = Marshal.StringToHGlobalAnsi(extension);
+		public static bool CheckExtensionSupported(string extension) {
+			var bytes = Encoding.ASCII.GetBytes(extension);
 
-			return Bindings.IsExtensionSupported(ptr) > 0;
+			unsafe {
+				fixed (void* ptr = bytes) {
+					return Bindings.CheckExtensionSupported((nint)ptr) > 0;
+				}
+			}
 		}
 
 		public static nint GetProcAddress(string procname) {
-			var ptr = Marshal.StringToHGlobalAnsi(procname);
+			var bytes = Encoding.ASCII.GetBytes(procname);
 
-			return Bindings.GetProcAddress(ptr);
+			unsafe {
+				fixed (void* ptr = bytes) {
+					return Bindings.GetProcAddress((nint)ptr);
+				}
+			}
 		}
 
 		public static bool IsVulkanSupported => Bindings.IsVulkanSupported() > 0;
@@ -544,10 +555,6 @@ namespace GLFW {
 					windows[window_ptr].MouseButtonAction?.Invoke((MouseButton)button, (InputAction)action, (KeyModifierFlags)modifiers);
 				});
 
-				Bindings.SetCursorMovedCallback(Pointer, (window_ptr, xpos, ypos) => {
-					windows[window_ptr].CursorMoved?.Invoke(new Vector2((float)xpos, (float)ypos));
-				});
-
 				Bindings.SetCursorEnterCallback(Pointer, (window_ptr, entered) => {
 					if (entered > 0) {
 						windows[window_ptr].CursorEntered?.Invoke();
@@ -589,6 +596,8 @@ namespace GLFW {
 
 				var window = new Window(window_ptr);
 
+				window.MakeContextCurrent();
+
 				return window;
 			}
 
@@ -616,6 +625,8 @@ namespace GLFW {
 				}
 
 				var window = new Window(window_ptr);
+
+				window.MakeContextCurrent();
 
 				return window;
 			}
@@ -660,7 +671,7 @@ namespace GLFW {
 				public bool? Double_Buffer;
 
 				public ClientAPI? Client_API;
-				public Version_? Context_Version;
+				public Version? Context_Version;
 				public Robustness? Context_Robustness;
 				public bool? Context_Debug;
 				public bool? Forward_Compatibility;
@@ -784,7 +795,6 @@ namespace GLFW {
 					if (Context_Version is not null) {
 						Bindings.SetWindowHint((int)WindowHint.Context_Major_Version, Context_Version.Value.Major);
 						Bindings.SetWindowHint((int)WindowHint.Context_Minor_Version, Context_Version.Value.Minor);
-						Bindings.SetWindowHint((int)WindowHint.Context_Revision, Context_Version.Value.Revision);
 					}
 					if (Context_Robustness is not null) {
 						Bindings.SetWindowHint((int)WindowHint.Context_Robustness, (int)Context_Robustness.Value);
@@ -817,23 +827,35 @@ namespace GLFW {
 
 					#region Platform Specific
 					if (Cocoa_Frame_Name is not null) {
-						var ptr = Utility.Marshal_String_To_Unmanaged_UTF8(Cocoa_Frame_Name);
+						var bytes = Encoding.ASCII.GetBytes(Cocoa_Frame_Name);
 
-						Bindings.SetWindowHintString((int)WindowHint.Cocoa_Frame_Name, ptr);
+						unsafe {
+							fixed (void* ptr = bytes) {
+								Bindings.SetWindowHintString((int)WindowHint.Cocoa_Frame_Name, (nint)ptr);
+							}
+						}						
 					}
 					if (Cocoa_Graphics_Switching is not null) {
 						Bindings.SetWindowHint((int)WindowHint.Cocoa_Graphics_Switching, Cocoa_Graphics_Switching.Value ? 1 : 0);
 					}
 
 					if (X11_Class_Name is not null) {
-						var ptr = Marshal.StringToHGlobalAnsi(X11_Class_Name);
+						var bytes = Encoding.ASCII.GetBytes(X11_Class_Name);
 
-						Bindings.SetWindowHintString((int)WindowHint.X11_Class_Name, ptr);
+						unsafe {
+							fixed (void* ptr = bytes) {
+								Bindings.SetWindowHintString((int)WindowHint.X11_Class_Name, (nint)ptr);
+							}
+						}
 					}
 					if (X11_Instance_Name is not null) {
-						var ptr = Marshal.StringToHGlobalAnsi(X11_Instance_Name);
+						var bytes = Encoding.ASCII.GetBytes(X11_Instance_Name);
 
-						Bindings.SetWindowHintString((int)WindowHint.X11_Instance_Name, ptr);
+						unsafe {
+							fixed (void* ptr = bytes) {
+								Bindings.SetWindowHintString((int)WindowHint.X11_Instance_Name, (nint)ptr);
+							}
+						}
 					}
 
 					if (Win32_Keyboard_Menu is not null) {
@@ -844,9 +866,13 @@ namespace GLFW {
 					}
 
 					if (Wayland_App_ID is not null) {
-						var ptr = Marshal.StringToHGlobalAnsi(Wayland_App_ID);
+						var bytes = Encoding.ASCII.GetBytes(Wayland_App_ID);
 
-						Bindings.SetWindowHintString((int)WindowHint.Wayland_App_ID, ptr);
+						unsafe {
+							fixed (void* ptr = bytes) {
+								Bindings.SetWindowHintString((int)WindowHint.Wayland_App_ID, (nint)ptr);
+							}
+						}
 					}
 					#endregion
 				}
@@ -887,11 +913,11 @@ namespace GLFW {
 			}
 
 			public void SetIcon(IEnumerable<Image> images) {
-				var handle = GCHandle.Alloc(images, GCHandleType.Pinned);
+				var images_ptr = Utility.Marshal_To_Unmanaged_Array(images.ToArray());
 
-				Bindings.SetWindowIcon(Pointer, images.Count(), handle.AddrOfPinnedObject());
+				Bindings.SetWindowIcon(Pointer, images.Count(), images_ptr);
 
-				handle.Free();
+				Marshal.FreeHGlobal(images_ptr);
 			}
 
 			public void ResetIcon() {
@@ -973,10 +999,8 @@ namespace GLFW {
 			public Monitor? FullscreenMonitor {
 				get {
 					var monitor_ptr = Bindings.GetWindowMonitor(Pointer);
-					if (monitor_ptr == nint.Zero) {
-						return null;
-					}
-					return monitors[monitor_ptr];
+
+					return monitor_ptr != nint.Zero ? monitors[monitor_ptr] : null;
 				}
 			}
 
@@ -989,7 +1013,7 @@ namespace GLFW {
 				Bindings.SetWindowMonitor(Pointer, monitor.Pointer, actual_rect.X, actual_rect.Y, actual_rect.Width, actual_rect.Height, refresh_rate ?? -1);
 			}
 
-			#region Attributes
+			#region Window Attributes
 			public bool Iconified {
 				get {
 					return Bindings.GetWindowAttribute(Pointer, (int)WindowAttribute.Iconified) > 0;
@@ -1116,7 +1140,7 @@ namespace GLFW {
 				}
 			}
 
-			public Version_ Context_Version {
+			public Version Context_Version {
 				get {
 					var major = Bindings.GetWindowAttribute(Pointer, (int)WindowAttribute.Context_Major_Version);
 					var minor = Bindings.GetWindowAttribute(Pointer, (int)WindowAttribute.Context_Minor_Version);
@@ -1127,7 +1151,6 @@ namespace GLFW {
 				set {
 					Bindings.SetWindowAttribute(Pointer, (int)WindowAttribute.Context_Major_Version, value.Major);
 					Bindings.SetWindowAttribute(Pointer, (int)WindowAttribute.Context_Minor_Version, value.Minor);
-					Bindings.SetWindowAttribute(Pointer, (int)WindowAttribute.Context_Revision, value.Revision);
 				}
 			}
 
@@ -1204,6 +1227,7 @@ namespace GLFW {
 				}
 			}
 
+			#region Window Events
 			public event Action<Vector2>? Moved;
 
 			public event Action<Vector2>? Resized;
@@ -1231,14 +1255,14 @@ namespace GLFW {
 
 			public event Action<MouseButton, InputAction, KeyModifierFlags>? MouseButtonAction;
 
-			public event Action<Vector2>? CursorMoved;
-
 			public event Action? CursorEntered;
 			public event Action? CursorExited;
 
 			public event Action<Vector2>? Scrolled;
 
 			public event Action<IEnumerable<string?>>? PathsDropped;
+
+			#endregion
 
 			#region Input Modes
 			public CursorState Cursor_State {

@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum InputMode {
 		Cursor = 0x00033001,
 		Sticky_Keys = 0x00033002,

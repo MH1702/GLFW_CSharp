@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Enums\GLFW.Enums.csproj" />
+    <ProjectReference Include="..\Enums\GLFW_CS.Enums.csproj" />
   </ItemGroup>
 
   <ItemGroup>

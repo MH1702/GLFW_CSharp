@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum ContextAPI {
 		Native = 0x00036001,
 		EGL = 0x00036002,

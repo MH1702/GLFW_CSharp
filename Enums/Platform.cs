@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum Platform {
 		Any = 0x00060000,
 		Win32 = 0x00060001,

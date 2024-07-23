@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum GamepadAxis {
 		Left_X = 0,
 		Left_Y = 1,

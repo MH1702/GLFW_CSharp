@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum MouseButton {
 		Button_1 = 0,
 		Button_2 = 1,

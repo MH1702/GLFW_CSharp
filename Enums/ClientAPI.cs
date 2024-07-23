@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum ClientAPI {
 		No_API = 0x00000000,
 		OpenGL_API = 0x00030001,

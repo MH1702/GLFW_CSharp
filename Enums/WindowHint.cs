@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum WindowHint {
 		Focused = 0x00020001,
 		Resizable = 0x00020003,

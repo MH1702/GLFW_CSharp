@@ -3,14 +3,14 @@
 namespace TEST {
 	public static class Program {
 		static void Main() {
-			GLFW.API.Init();
+			GLFW_CS.API.Init();
 
-			Console.WriteLine($"Running GLFW {GLFW.API.Version}");
+			Console.WriteLine($"Running GLFW {GLFW_CS.API.CurrentVersion}");
 
-			var window = GLFW.API.Window.Create();
+			var window = GLFW_CS.API.Window.Create(GLFW_CS.API.Window.Config.Default with { Hints = GLFW_CS.API.Window.CreationHints.Default with { Context_Version = new GLFW_CS.API.Version(3,3,0)} });
 
 			window.KeyAction += (key, scancode, action, mods) => {
-				if (key == GLFW.Enums.Key.Escape) {
+				if (key == GLFW_CS.Enums.Key.Escape) {
 					window.Close();
 				}
 			};
@@ -19,11 +19,11 @@ namespace TEST {
 				// Render here
 
 				window.SwapBuffers();
-				GLFW.API.PollEvents();
+				GLFW_CS.API.PollEvents();
 			}
 
 			window.Destroy();
-			GLFW.API.Terminate();
+			GLFW_CS.API.Terminate();
 		}
 	}
 }

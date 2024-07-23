@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	[Flags]
 	public enum JoystickHatState {
 		Centered = 0,

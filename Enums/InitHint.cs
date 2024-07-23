@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum InitHint {
 		Joystick_Hat_Buttons = 0x00050001,
 		Angle_Platform_Type = 0x00050002,

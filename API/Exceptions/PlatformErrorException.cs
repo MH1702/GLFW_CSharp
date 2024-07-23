@@ -1,4 +1,4 @@
-﻿namespace GLFW.Exceptions {
+﻿namespace GLFW_CS.Exceptions {
 	public class PlatformErrorException : Exception {
 		public PlatformErrorException() : base() { }
 

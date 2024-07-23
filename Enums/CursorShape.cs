@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum CursorShape {
 		Arrow = 0x00036001,
 		IBeam = 0x00036002,

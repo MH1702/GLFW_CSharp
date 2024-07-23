@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum WindowAttribute {
 		Iconified = 0x00020002,
 		Hovered = 0x0002000B,

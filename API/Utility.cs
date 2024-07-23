@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace GLFW {
+namespace GLFW_CS {
 	internal static class Utility {
 		internal static T[] Marshal_From_Unmanaged_Array<T>(nint src_ptr, int length) where T : struct {
 			unsafe {
@@ -29,7 +29,9 @@ namespace GLFW {
 			int byte_count = Encoding.UTF8.GetByteCount(str);
 			byte[] buffer = new byte[byte_count + 1];
 			Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, 0);
+
 			nint ptr = Marshal.AllocHGlobal(buffer.Length);
+
 			Marshal.Copy(buffer, 0, ptr, buffer.Length);
 
 			return ptr;

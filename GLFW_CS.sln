@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLFW.API", "API\GLFW.API.csproj", "{22842F67-18C9-4C8A-9713-4B227E143778}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLFW_CS.API", "API\GLFW_CS.API.csproj", "{22842F67-18C9-4C8A-9713-4B227E143778}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLFW.Enums", "Enums\GLFW.Enums.csproj", "{ED824FC5-2D99-4A3D-B5BB-78977B3DB765}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TEST", "TEST\TEST.csproj", "{73790C21-E927-44FB-94E5-48B83E977E6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLFW_CS.Enums", "Enums\GLFW_CS.Enums.csproj", "{ED824FC5-2D99-4A3D-B5BB-78977B3DB765}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{ED824FC5-2D99-4A3D-B5BB-78977B3DB765}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED824FC5-2D99-4A3D-B5BB-78977B3DB765}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED824FC5-2D99-4A3D-B5BB-78977B3DB765}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73790C21-E927-44FB-94E5-48B83E977E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73790C21-E927-44FB-94E5-48B83E977E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73790C21-E927-44FB-94E5-48B83E977E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73790C21-E927-44FB-94E5-48B83E977E6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

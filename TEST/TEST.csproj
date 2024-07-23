@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\API\GLFW.API.csproj" />
-    <ProjectReference Include="..\Enums\GLFW.Enums.csproj" />
+    <ProjectReference Include="..\API\GLFW_CS.API.csproj" />
+    <ProjectReference Include="..\Enums\GLFW_CS.Enums.csproj" />
   </ItemGroup>
 
 </Project>

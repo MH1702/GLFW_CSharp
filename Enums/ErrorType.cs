@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum ErrorType {
 		Not_Initialized = 0x00010001,
 		No_Current_Context = 0x00010002,

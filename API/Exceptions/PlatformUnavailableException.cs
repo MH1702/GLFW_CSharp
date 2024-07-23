@@ -1,4 +1,4 @@
-﻿namespace GLFW.Exceptions {
+﻿namespace GLFW_CS.Exceptions {
 	public class PlatformUnavailableException : Exception {
 		public PlatformUnavailableException() : base() { }
 

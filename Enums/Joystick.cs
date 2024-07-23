@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum Joystick {
 		Joystick_1 = 0,
 		Joystick_2 = 1,

@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum CursorState {
 		Normal = 0x00034001,
 		Hidden = 0x00034002,

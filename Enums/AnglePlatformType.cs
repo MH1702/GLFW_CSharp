@@ -1,4 +1,4 @@
-﻿namespace GLFW.Enums {
+﻿namespace GLFW_CS.Enums {
 	public enum AnglePlatformType {
 		None = 0x00037001,
 		OpenGL = 0x00037002,
